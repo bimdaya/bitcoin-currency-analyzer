@@ -1,0 +1,58 @@
+body {
+  background-color: #e6e6e6;
+  font-family: "Open Sans", "Helvetica", "Arial", "sans-serif";
+  height: 100%;
+  margin: 0;
+  padding: 0; }
+
+.App {
+  text-align: center; }
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px; }
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white; }
+
+.App-title {
+  font-size: 1.5em; }
+
+.App-intro {
+  font-size: large; }
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+
+.header {
+  height: 100px; }
+
+.queryResults {
+  background: #ffffff;
+  color: #000000;
+  font-weight: bold;
+  overflow-y: scroll;
+  margin-left: 40%;
+  width: 20%;
+  text-align: left;
+  border: 1px solid #cccccc;
+  max-height: 300px;
+  border-radius: 6px;
+  position: relative; }
+
+.searchResultItem {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #cccccc; }
+
+.show {
+  display: block; }
+
+.hide {
+  display: none; }
