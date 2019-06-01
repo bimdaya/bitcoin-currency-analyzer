@@ -1,14 +1,10 @@
 {
-  "name": "react-redux-bitcoin",
+  "name": "Bitcoin-Currency-Finder",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "humps": "^2.0.1",
-    "lodash": "^4.17.5",
     "moment": "^2.24.0",
-    "node-sass-chokidar": "^1.2.2",
-    "normalizr": "^3.2.4",
     "npm-run-all": "^4.1.2",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
