@@ -11,6 +11,12 @@ const initialState = {
 	failed: false,
 };
 
+/**
+* Get monthly rates state for the given currency code - reducer
+* @param {object} state initialState
+* @param {object} action action
+* @return {state}
+*/
 const GetMonthlyRatesReducerReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_MONTHLY_RATES_PENDING:

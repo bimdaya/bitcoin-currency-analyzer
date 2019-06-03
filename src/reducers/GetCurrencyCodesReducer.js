@@ -11,7 +11,13 @@ const initialState = {
 	failed: false,
 };
 
-const GetMonthlyRatesReducer = (state = initialState, action) => {
+/**
+* Get currency codes state - reducer
+* @param {object} state initialState
+* @param {object} action action
+* @return {state}
+*/
+const getCurrencyCodesReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_CURRENCY_CODES_PENDING:
 			return {
@@ -42,4 +48,4 @@ const GetMonthlyRatesReducer = (state = initialState, action) => {
 	}
 };
 
-export default GetMonthlyRatesReducer;
+export default getCurrencyCodesReducer;

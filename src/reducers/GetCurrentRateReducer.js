@@ -11,6 +11,12 @@ const initialState = {
 	failed: false,
 };
 
+/**
+* Get current rate details state for the given currency code - reducer
+* @param {object} state initialState
+* @param {object} action action
+* @return {state}
+*/
 const GetCurrentRateReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_CURRENT_RATE_PENDING:
