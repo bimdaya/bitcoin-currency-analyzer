@@ -11,7 +11,7 @@ export const getCurrentRate = currencyCode =>
   axios
     .get(`${COINDESK_API_BASE_URL}currentprice/${currencyCode}.json`, {})
     .then(response => response.data)
-    .catch(error => error.response.status);
+    .catch(error => error);
 
 /**
  * Get Bitcoin rates of supported currencies
@@ -21,7 +21,9 @@ export const getCurrencyCodes = () =>
   axios
     .get(`${COINDESK_API_BASE_URL}supported-currencies.json`, {})
     .then(response => response.data)
-    .catch(error => error.response.status);
+    .catch(error => {
+      throw new Error('Error occured while retriving currency code list from CoinDesk API');
+    });
 
 /**
  * Get monthly Bitcoin rates of a given currency code
@@ -38,7 +40,7 @@ export const getMonthlyRates = (currencyCode, startDate, endDate) =>
       {},
     )
     .then(response => response.data)
-    .catch(error => error.response.status);
+    .catch(error => error);
 
 /**
  * Search currency codes matching to the given query
@@ -47,7 +49,7 @@ export const getMonthlyRates = (currencyCode, startDate, endDate) =>
  * @return {object} search query result
  */
 export const getSuggestions = (currencyCodes, query) =>
-  Array.from(currencyCodes).filter((currencyCode) => {
+  Array.from(currencyCodes).filter(currencyCode => {
     const regex = new RegExp(`^${query}`, 'i');
     if (regex.test(currencyCode.currency)) {
       return true;

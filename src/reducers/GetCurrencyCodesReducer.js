@@ -3,6 +3,7 @@ import {
   GET_CURRENCY_CODES_FULFILLED,
   GET_CURRENCY_CODES_REJECTED,
 } from '../common/constants';
+import curencyCodes from '../common/supported-currencies'
 
 const initialState = {
   data: [],
@@ -38,7 +39,7 @@ const getCurrencyCodesReducer = (state = initialState, action) => {
     case GET_CURRENCY_CODES_REJECTED:
       return {
         ...state,
-        data: [],
+        data: curencyCodes,
         fetching: false,
         fetched: false,
         failed: true,

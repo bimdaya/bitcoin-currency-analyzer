@@ -7,11 +7,11 @@ class CurrencySuggestions extends React.Component {
   };
 
   render() {
-    const resut = this.props.queryResult;
-    if (Object.keys(resut).length === 0) return '';
+    const result = this.props.queryResult;
+    if (Object.keys(result).length === 0) return '';
     return (
       <div>
-        {Array.from(resut).map(
+        {Array.from(result).map(
           currencyCode =>
             ({ currencyCode } && (
               <button
