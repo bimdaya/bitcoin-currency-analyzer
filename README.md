@@ -3,6 +3,7 @@
 Requirements
 --------------------
 * Node.js v10 LTS
+* I have used Browser plugin which enables CROS  
 
 Quick Start
 --------------------
