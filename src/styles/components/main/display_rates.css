@@ -1,0 +1,19 @@
+.description {
+    font-size: small;
+}
+
+.display-rates{
+  margin-top: 30%;
+}
+
+.disclaimer {
+  font-size: small;
+  font-style: italic;
+}
+
+th, td {
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}

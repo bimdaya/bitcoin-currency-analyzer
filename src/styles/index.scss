@@ -1,5 +1,3 @@
-@import '_settings.scss';
-@import '_base.scss';
-@import '_app.scss';
-@import './components/_header.scss';
-@import './components/main/BitcoinAnalyzer';
+@import './components/main/main';
+@import './components/header';
+@import './components/main/display_rates'

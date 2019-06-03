@@ -1,0 +1,33 @@
+* {
+	text-align: center !important;
+	margin: auto !important;
+}
+
+.clear-btn {
+	background: #f7f7f7;
+	height: 2em;
+}
+
+.hide {
+	display: none;
+}
+
+.show {
+	display: block;
+}
+
+.suggestion-list {
+	background: #ffffff;
+	border: 1px solid #cccccc;
+	max-height: 300px;
+	position: relative;
+	width: 20%;
+}
+
+.suggestion-item {
+	background-color: #ffffff;
+	border-bottom: 1px solid #cccccc;
+	cursor: pointer;
+	display: block;
+	width: 100%;
+}
