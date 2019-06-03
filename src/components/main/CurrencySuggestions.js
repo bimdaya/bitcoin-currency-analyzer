@@ -1,38 +1,38 @@
 import React from 'react';
-
-
+import PropTypes from 'prop-types';
 
 class CurrencySuggestions extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currency: '',
-      showContent: false,
-      prices: null,
-      currentprice: null,
-    }
-  }
+	showCurrencyDetails = currencyCode => {
+		this.props.onSelection(currencyCode);
+	};
 
-  showCurrencyDetails = currencyCode => {
-    this.props.onSelection(currencyCode);
-  }
+	render() {
+		const resut = this.props.queryResult;
+		if (Object.keys(resut).length === 0) return '';
+		return (
+			<div>
+				{Array.from(resut).map(
+					currencyCode =>
+						({ currencyCode } && (
+							<button
+								className="suggestion-item"
+								key={currencyCode.currency + 'btn'}
+								onClick={() =>
+									this.showCurrencyDetails(currencyCode.currency)
+								}>
+								<span key={currencyCode.currency}>
+									{`${currencyCode.currency} - ${currencyCode.country}`}
+								</span>
+							</button>
+						)),
+				)}
+			</div>
+		);
+	}
+}
 
-  render() {
-    return (
-        <div>
-            {console.log(this.props.queryResults)}
-      {
-        Array.from(this.props.queryResults).map((item) => (
-            <button key={item.currency}
-                id={item.currency}
-                onClick={() => this.showCurrencyDetails(item.currency)}>
-          <span>
-            {`${item.currency} - ${item.country}`}
-          </span>
-        </button>))
-      }
-    </div>)
-  }
+CurrencySuggestions.propTypes = {
+  queryResult: PropTypes.array.isRequired,
 }
 
 export default CurrencySuggestions;

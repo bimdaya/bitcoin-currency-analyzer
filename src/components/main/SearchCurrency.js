@@ -1,34 +1,42 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 class SearchCurrency extends React.Component {
+	changeValue = (value) => {
+		this.props.onChangeValue(value);
+	}
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      currency: ''
-    }
-  }
+	clearAll = () => {
+		this.props.onClear()
+	}
 
-  changeValue = (value) => {
-      this.props.onChangeVale(value);
-  }
-
-clearAll = () => {
-    this.props.onclear()
+	render() {
+		return (
+			<div className='searc-box'>
+				<input
+					id='searchCurrencyCode'
+					onChange={e => this.changeValue(e)}
+					placeholder='Enter a currency code...'
+    				type='search'
+					value={this.props.searchQuery}/>
+				<button
+					className='clear-btn'
+					onClick={() => {
+						this.clearAll();
+					}}>
+					Clear All
+				</button>
+			</div>
+		);
+	}
 }
 
+SearchCurrency.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
+}
 
-  render() {
-    return (<div>
-      <input type='search' id='searchCurrencyCode' size="40"
-          value={this.props.currency}
-        onChange={e => this.changeValue(e)}
-        placeholder="Type a currency"/>
-      <button onClick={() => {
-        this.clearAll()
-      }}>Clear All</button>
-    </div >);
-  }
-
+SearchCurrency.defaultProps = {
+  searchQuery: '',
 }
 
 export default SearchCurrency;

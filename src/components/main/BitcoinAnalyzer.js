@@ -1,134 +1,156 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import moment from 'moment';
-import { debounce } from "throttle-debounce";
+import { debounce } from 'throttle-debounce';
+
 import CurrencySuggestions from './CurrencySuggestions';
 import CurrencyDetails from './CurrencyDetails';
-import {getCurrentPrice, getPrices} from '../../actions';
-
-import {getCurrencyCodes, getSuggestions} from '../../actions';
-import SearchCurrency from './SearchCurrency'
+import {
+	getCurrentRate,
+	getMonthlyRates,
+	getCurrencyCodes,
+	getSuggestions,
+} from '../../actions';
+import SearchCurrency from './SearchCurrency';
 
 class BitcoinAnalyzer extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			showSuggestions: false,
+			showRates: false,
+			query: '',
+			currencyCode: '',
+		}
 
-    constructor(props) {
-      super(props);
-      this.state = {
-        showAutoComp: false,
-        showContent: false,
-        query: '',
-        currency: ''
-      }
+		this.autoCompleteSuggestions = debounce(200, this.searchSuggestions);
+		this.updateSearchQuery = this.updateSearchQuery.bind(this);
+		this.clearData = this.clearData.bind(this);
+		this.getCurrencyRates = this.getCurrencyRates.bind(this);
+	}
 
-      /*
-      Making a debounce logic in a way that when user makes a delay of 300ms then
-      it hits the server or the local data for suggestions (this approach will minimize the
-      hits to the server as per key strokes) */
-     this.autocompleteCurrencySearchWithDebounce = debounce(300, this.searchSuggestions);
-      this.findTypedText = this.findTypedText.bind(this);
-      this.clearData = this.clearData.bind(this);
-      this.clearInput = this.clearInput.bind(this);
-    }
+	componentDidMount() {
+		this.props.getCurrencyCodes();
+	}
 
-  componentDidMount() {
-    this.props.getCurrencyCodes();
-  }
+	updateSearchQuery = (searchInput) => {
+		let isUpdated = false;
 
-  findTypedText = evt => {
+		if (searchInput.length > 0) {
+			isUpdated = true;
+		}
 
-    let bol = false;
-    if (evt.target.value.length > 0) {
-      bol = true;
-    }
+		this.setState({
+            query: searchInput,
+            showSuggestions: isUpdated
+        }, () => {
+			this.autoCompleteSuggestions(this.state.query);
+		})
+	}
 
-    this.setState({ query: evt.target.value, showAutoComp:bol }, () => {
+	searchSuggestions = (query) => {
+		this.props.getSuggestions(this.props.currencyCodes, query);
+	}
 
-       this.autocompleteCurrencySearchWithDebounce(this.state.query);
+	getCurrencyRates = (currencyCode) => {
+		this.setState({
+            query: currencyCode,
+            showSuggestions: false
+        })
+		this.searchCurrencyRates(currencyCode);
+	}
 
-     });
+	searchCurrencyRates = (currencyCode) => {
+		const startDate = moment()
+			.subtract(30, 'days')
+			.format('YYYY-MM-DD');
+		const endDate = moment()
+			.subtract(1, 'days')
+			.format('YYYY-MM-DD');
 
-  }
+		if (currencyCode) {
+			this.setState({
+                showRates: true,
+                currencyCode: currencyCode
+            }, () => {
+				this.props.getMonthlyRates(
+                    this.state.currencyCode,
+                    startDate,
+                    endDate);
+				this.props.getCurrentRate(this.state.currencyCode);
+			})
+		}
+	}
 
-  searchSuggestions = (query) => {
-      console.log('display');
-      this.props.getSuggestions(this.props.currencyCodes, query);
-      console.log('end');
-  }
+	clearData = () => {
+		this.setState({
+            query: '',
+            showSuggestions: false,
+            showRates: false
+        })
+	}
 
-  clearInput = (currency) => {
-    this.setState({query: currency, showAutoComp: false});
-    this.findCurrencyCode(currency);
-  }
-
-  findCurrencyCode = (currencyCode) => {
-    const startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
-    const endDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
-
-    if (currencyCode) {
-
-      this.setState({ showContent: true, currency: currencyCode}, () => {
-          this.props.getPrices(this.state.currency, startDate, endDate);
-          this.props.getCurrentPrice(this.state.currency);
-
-           });
-    }
-  }
-
-  clearData = () => {
-    this.setState({query: '', showAutoComp: false, showContent: false});
-  }
-
-  render() {
-    return (
-        <div>
-        <SearchCurrency
-            onChangeVale={this.findTypedText}
-            onclear={this.clearData}
-            currency={this.state.query}/>
-        <div className={(
-            this.state.showAutoComp
-            ? "queryResults show"
-            : "queryResults hide")}>
-          <CurrencySuggestions
-              queryResults={this.props.suggestions}
-              onSelection={this.clearInput}/>
-        </div>
-        <div className={(
-            this.state.showContent
-            ? "show"
-            : "hide")}>
-          <CurrencyDetails
-              showContent={this.state.showContent}
-              prices={this.props.prices}
-              currentPrice={this.props.currentPrice}/>
-        </div>
-        </div>
-    );
-  }
+	render() {
+		return (
+			<div>
+				<SearchCurrency
+					onChangeValue={e => {
+						this.updateSearchQuery(e.target.value)
+					}}
+					onClear={this.clearData}
+					searchQuery={this.state.query}/>
+				<div className={
+						this.state.showSuggestions
+							? 'suggestion-list show'
+							: 'suggestion-list hide'
+					}>
+					<CurrencySuggestions
+						onSelection={this.getCurrencyRates}
+    					queryResult={this.props.suggestions}
+					/>
+				</div>
+				<div className={this.state.showRates ? 'show' : 'hide'}>
+					<CurrencyDetails
+                        currentRate={this.props.currentRate}
+						monthlyRates={this.props.monthlyRates}/>
+				</div>
+			</div>
+		)
+	}
 }
 
 BitcoinAnalyzer.propTypes = {
-  currencyCodes: PropTypes.Object
-};
+  currencyCodes: PropTypes.array.isRequired,
+  currentRate: PropTypes.object.isRequired,
+  monthlyRates: PropTypes.object.isRequired,
+  suggestions: PropTypes.array.isRequired,
+  getCurrencyCodes: PropTypes.func.isRequired,
+  getMonthlyRates: PropTypes.func.isRequired,
+  getCurrentRate: PropTypes.func.isRequired,
+  getSuggestions: PropTypes.func.isRequired,
+}
 
-const mapStateToProps = (state) => {
-  const currencyCodes = state.currencyCodes.data;
-  const currentPrice = state.currentPrice.data;
-  const prices = state.prices.data.bpi;
-  const suggestions = state.suggestions.data;
-  return {currencyCodes, currentPrice, prices, suggestions};
-};
+const mapStateToProps = state => {
+	const currencyCodes = state.currencyCodes.data;
+	const currentRate = state.currentRate.data;
+	const monthlyRates = state.monthlyRates.data.bpi;
+	const suggestions = state.suggestions.data;
+	return { currencyCodes, currentRate, monthlyRates, suggestions }
+}
 
 const mapDispatchToProps = dispatch => {
-  return {
-    getCurrencyCodes: () => dispatch(getCurrencyCodes()),
-    getPrices: (currencyCode, startDate, endDate) =>
-        dispatch(getPrices(currencyCode, startDate, endDate)),
-    getCurrentPrice: (currencyCode) =>
-        dispatch(getCurrentPrice(currencyCode)),
-    getSuggestions: (currencyCodes, query) =>
-        dispatch(getSuggestions(currencyCodes, query)),
-  }
+	return {
+		getCurrencyCodes: () => dispatch(getCurrencyCodes()),
+		getMonthlyRates: (currencyCode, startDate, endDate) =>
+			dispatch(getMonthlyRates(currencyCode, startDate, endDate)),
+		getCurrentRate: currencyCode => dispatch(getCurrentRate(currencyCode)),
+		getSuggestions: (currencyCodes, query) =>
+			dispatch(getSuggestions(currencyCodes, query)),
+	}
 }
-export default connect(mapStateToProps, mapDispatchToProps)(BitcoinAnalyzer);
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(BitcoinAnalyzer);
