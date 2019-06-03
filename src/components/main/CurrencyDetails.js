@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 class CurrencyDetails extends React.Component {
   render() {
-    const currentRate = this.props.currentRate;
-    const monthlyRates = this.props.monthlyRates;
+    const { currentRate } = this.props;
+    const { monthlyRates } = this.props;
 
     if (!currentRate.bpi || !monthlyRates) return '';
 
