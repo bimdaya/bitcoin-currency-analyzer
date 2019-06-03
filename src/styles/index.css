@@ -36,7 +36,8 @@
   font-size: small;
   font-style: italic; }
 
-th, td {
+th,
+td {
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 20px;

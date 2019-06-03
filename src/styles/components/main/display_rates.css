@@ -1,8 +1,8 @@
 .description {
-    font-size: small;
+  font-size: small;
 }
 
-.display-rates{
+.display-rates {
   margin-top: 30%;
 }
 
@@ -11,7 +11,8 @@
   font-style: italic;
 }
 
-th, td {
+th,
+td {
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 20px;

@@ -1,4 +1,4 @@
-//Action types
+// Action types
 export const GET_CURRENT_RATE = 'GET_CURRENT_RATE';
 export const GET_CURRENT_RATE_PENDING = 'GET_CURRENT_RATE_PENDING';
 export const GET_CURRENT_RATE_FULFILLED = 'GET_CURRENT_RATE_FULFILLED';
@@ -16,5 +16,5 @@ export const GET_CURRENCY_CODES_REJECTED = 'GET_CURRENCY_CODES_REJECTED';
 
 export const GET_SUGGESTIONS = 'GET_SUGGESTIONS';
 
-//API
+// API
 export const COINDESK_API_BASE_URL = 'https://api.coindesk.com/v1/bpi/';

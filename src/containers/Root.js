@@ -6,15 +6,15 @@ import { Route } from 'react-router-dom';
 import App from './App';
 
 const Root = ({ store }) => (
-	<Provider store={store}>
-		<div>
-			<Route path="/" component={App} />
-		</div>
-	</Provider>
+  <Provider store={store}>
+    <div>
+      <Route path="/" component={App} />
+    </div>
+  </Provider>
 );
 
 Root.propTypes = {
-	store: PropTypes.object.isRequired,
+  store: PropTypes.object.isRequired,
 };
 
 export default Root;

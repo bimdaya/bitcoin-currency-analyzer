@@ -6,21 +6,20 @@ import { createLogger } from 'redux-logger';
 import AppReducer from '../reducers/AppReducer';
 
 const configureStore = (preloadedState) => {
+  const store = createStore(
+    AppReducer,
+    preloadedState,
+    compose(applyMiddleware(thunk, promiseMiddleware(), createLogger())),
+  );
 
-	const store = createStore(
-		AppReducer,
-		preloadedState,
-		compose(applyMiddleware(thunk, promiseMiddleware(), createLogger())),
-	);
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('../reducers/AppReducer', () => {
+      store.replaceReducer(AppReducer);
+    });
+  }
 
-	if (module.hot) {
-		// Enable Webpack hot module replacement for reducers
-		module.hot.accept('../reducers/AppReducer', () => {
-			store.replaceReducer(AppReducer);
-		});
-	}
-
-	return store;
+  return store;
 };
 
 export default configureStore;
