@@ -1,44 +1,34 @@
-// IMPORT PACKAGE REFERENCES
-
 import axios from 'axios';
 
-// INITIALIZATION
+import { COINDESK_API_BASE_URL } from '../common/constants';
 
-const API = 'https://api.coindesk.com/v1/bpi/';
+export const getCurrentRate = currencyCode =>
+	axios
+		.get(`${COINDESK_API_BASE_URL}currentprice/${currencyCode}.json`, {})
+		.then(response => response.data)
+		.catch(error => error.response.status);
 
-// SERVICES
+export const getCurrencyCodes = () =>
+	axios
+		.get(`${COINDESK_API_BASE_URL}supported-currencies.json`, {})
+		.then(response => response.data)
+		.catch(error => error.response.status);
 
-export const getCurrentPrice = (currencyCode) =>{
-  return axios
-    .get( `https://api.coindesk.com/v1/bpi/currentprice/${currencyCode}.json`, {} )
-    .then( response => response.data, error => error.response.status );
-}
+export const getMonthlyRates = (currencyCode, startDate, endDate) =>
+	axios
+		.get(
+			`${COINDESK_API_BASE_URL}historical/close.json?
+                currency=${currencyCode}&start=${startDate}&end=${endDate}`,
+			{},
+		)
+		.then(response => response.data)
+		.catch(error => error.response.status);
 
-export const getSupportedCurrencies = () =>{
-  return axios
-    .get( `https://api.coindesk.com/v1/bpi/supported-currencies.json`, {} )
-    .then( response => response.data, error => error.response.status );
-    // .then(
-    //     result => result.map(a => a.currency)
-    //     //result.reduce((a, b) => Object.assign(b), {})
-    // );
-}
-
-export const getPrices = ( currencyCode, startDate, endDate ) => {
-  return axios
-    .get( `${ API }historical/close.json?currency=${currencyCode}&start=${ startDate }&end=${ endDate }`, {} )
-    .then( response => response.data, error => error.response.status );
-  // fetch(`https://api.coindesk.com/v1/bpi/supported-currencies.json`, { mode: 'no-cors'})
-  //   .then( response => response.data)
-  //   .catch(error => error.response.status )
-}
-
-export const getSuggestions = (currencyCodes, query) => {
-  return Array.from(currencyCodes).filter((codeObj) => {
-    const regex = new RegExp('^' + query, 'i');
-    if (regex.test(codeObj.currency)) {
-      return true;
-    }
-    return false;
-  });
-}
+export const getSuggestions = (currencyCodes, query) =>
+	Array.from(currencyCodes).filter((currencyCode) => {
+		const regex = new RegExp(`^${query}`, 'i');
+		if (regex.test(currencyCode.currency)) {
+			return true;
+		}
+		return false;
+	});
