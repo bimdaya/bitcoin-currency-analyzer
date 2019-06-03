@@ -1,34 +1,19 @@
-// IMPORT ACTION CONSTANTS
-
-import {
-  GET_SUGGESTIONS,
-} from '../actions';
-
-// INITIALIZE STATE
+import { GET_SUGGESTIONS } from '../common/constants';
 
 const initialState = {
-  data: {},
-  fetching: false,
-  fetched: false,
-  failed: false,
+	data: [],
 };
 
-// REDUCER
-
-const GetSuggestionsReducer = ( state = initialState, action ) => {
-    console.log(action);
-  switch ( action.type ) {
-    case GET_SUGGESTIONS:
-      return {
-        ...state,
-        data: action.payload,
-        fetching: false,
-        fetched: true,
-        failed: false,
-      };
-    default:
-      return state;
-  }
+const GetSuggestionsReducer = (state = initialState, action) => {
+	switch (action.type) {
+		case GET_SUGGESTIONS:
+			return {
+				...state,
+				data: action.payload,
+			};
+		default:
+			return state;
+	}
 };
 
 export default GetSuggestionsReducer;

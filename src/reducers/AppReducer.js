@@ -1,21 +1,15 @@
-// IMPORT PACKAGE REFERENCES
-
 import { combineReducers } from 'redux';
 
-// IMPORT REDUCERS
+import getCurrentRateReducer from './GetCurrentRateReducer';
+import getMonthlyRatesReducer from './GetMonthlyRatesReducer';
+import getCurrencyCodesReducer from './GetCurrencyCodesReducer';
+import getSuggestionsReducer from './GetSuggestionsReducer';
 
-import GetCurrentPriceReducer from './GetCurrentPriceReducer';
-import GetPricesReducer from './GetPricesReducer';
-import GetSupportedCurrenciesReducer from './GetSupportedCurrenciesReducer';
-import GetSuggestionsReducer from './GetSuggestionsReducer';
-
-// EXPORT REDUCER
-
-const AppReducer = combineReducers( {
-  currentPrice: GetCurrentPriceReducer,
-  prices: GetPricesReducer,
-  currencyCodes: GetSupportedCurrenciesReducer,
-  suggestions: GetSuggestionsReducer,
-} );
+const AppReducer = combineReducers({
+	currentRate: getCurrentRateReducer,
+	monthlyRates: getMonthlyRatesReducer,
+	currencyCodes: getCurrencyCodesReducer,
+	suggestions: getSuggestionsReducer,
+});
 
 export default AppReducer;
