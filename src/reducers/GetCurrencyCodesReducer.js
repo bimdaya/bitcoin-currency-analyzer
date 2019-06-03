@@ -37,6 +37,7 @@ const getCurrencyCodesReducer = (state = initialState, action) => {
         failed: false,
       };
     case GET_CURRENCY_CODES_REJECTED:
+      console.warn('Retriving Currency Codes from supported-currencies.json');
       return {
         ...state,
         data: curencyCodes,

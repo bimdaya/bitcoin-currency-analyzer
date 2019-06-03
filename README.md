@@ -3,7 +3,9 @@
 Requirements
 --------------------
 * Node.js v10 LTS
-* I have used Browser plugin which enables CROS  
+
+
+* If CROS is not enabled, the application uses `/src/common/supported-currencies.json` to retrieve Currency Codes  
 
 Quick Start
 --------------------
